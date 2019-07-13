@@ -1,0 +1,32 @@
+
+namespace org.accredilink.screening.participant
+
+abstract participant accredilink identified by accredilinkKey {
+  o String accredilinkKey
+  o Contact contact
+}
+
+participant networkMan extends accredilink {
+  o Name fullName
+}
+
+participant agency extends accredilink {
+  o String name
+  
+}
+
+participant customer extends accredilink{
+  o Name fullName
+
+}
+
+concept Name{
+o String fName
+o String mName 
+o String lName
+}
+
+concept Contact {
+  o String email regex =/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/ 
+  o String Phone regex =/(0|[1-9]){9,11}/
+}

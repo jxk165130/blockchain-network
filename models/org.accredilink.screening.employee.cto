@@ -1,0 +1,104 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace org.accredilink.screening.employee
+
+//resources
+//unused regex MMM111 = [A-Z][A-Z][A-Z](0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])-[0-9][0-9][0-9][0-9]
+//unusedd regex date regex = (0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])-([0-9][0-9][0-9][0-9])
+
+asset Employee identified by employeeID {
+  //Last Name + DOB(xx-xx-xxxx)
+  o String employeeID
+  o String lName
+  o PersonalInfo information
+  o Employability status default = "GREEN"//GREEN = good, RED = bad, YELLOW = upcoming/pending 
+  o String offenseType optional
+  o String pendingOffense optional
+}
+
+// optional fields do not show up unless specified on the asset definition
+concept PersonalInfo {
+  o String fName
+  o String mName optional
+  o String[] alias optional
+  o DateTime dob 
+  o String address optional
+  o String SSN regex = /(0|[1-9]){9}/
+  o String email regex =/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/ optional
+  o String phone regex =/(0|[1-9]){9,11}/ optional
+}
+
+enum Employability {
+  o GREEN
+  o YELLOW
+  o RED
+
+}
+
+//transaction creating the employee
+transaction createEmployee {
+  o String fName
+  o String lName
+  o DateTime dob 
+  o String SSN
+}
+event employeeCreated {
+  o String employeeID
+}
+
+//adding aliases to employee
+transaction addAlias {
+  o String employeeID
+  o String alias
+
+}
+event addedAlias {
+  o String employeeID
+}
+//adding address
+transaction addAddress{
+  o String employeeID
+  o String address
+
+}
+event addedAddress {
+  o String employeeID
+}
+//adding offense type RED
+transaction addOffenseType {
+  o String employeeID
+  o String offenseType
+}
+event addedOffenseType {
+  o String employeeID
+}
+//adding pending offense yellow
+transaction addPendingOffense {
+  o String employeeID
+  o String pendingOffense
+}
+event addedPendingOffense {
+  o String employeeID
+}
+//adding contact info
+transaction addContact {
+  o String employeeID
+  o String email
+  o String Phone
+
+}
+event addedContact {
+  o String employeeID
+}

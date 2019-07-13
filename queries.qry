@@ -1,0 +1,29 @@
+//Queries for the employees
+
+query Employee {
+  description: "Returns all employees in registry"
+  statement:
+      SELECT org.accredilink.screening.employee.Employee
+}
+
+query EmployeeByID {
+  description: "Returns employee by ID"
+  statement: 
+    SELECT org.accredilink.screening.employee.Employee
+    WHERE (employeeID == _$ID_number)
+}
+
+query EmployeeBylNameDob {
+  description: "Returns employee by last name and dob"
+  statement: 
+    SELECT org.accredilink.screening.employee.Employee
+    WHERE (lName == _$last_name AND information.dob == _$date_of_birth)
+}
+
+query EmployeeBySSN {
+  description: "Returns employee by SSN"
+  statement: 
+    SELECT org.accredilink.screening.employee.Employee
+    WHERE (information.SSN == _$social_number)
+}
+
